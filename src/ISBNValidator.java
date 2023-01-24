@@ -4,7 +4,7 @@ import java.io.File;
 /**
  * ISBN Validator imports, verifies, and stores ISBN numbers
  * @version January 20, 2023
- * @author jcochran
+ * @author 23benjamin
  */
 public class ISBNValidator {
     private String filename;
@@ -59,7 +59,16 @@ public class ISBNValidator {
      * @return true if valid, false otherwise
      */
     public boolean isValidISBN(String isbn) {
-        return (int)(Math.random()*2) == 0;
+        int total = 0;
+        isbn = isbn.replaceAll("-", "");
+        for (int i = 0; i <isbn.length(); i++) {
+            if (i % 2 == 0)
+                total += Integer.parseInt(isbn.substring(i, i+1));
+            else
+                total += Integer.parseInt(isbn.substring(i, i+1))*3;
+        }
+        return (isbn.substring(0, 3).equals("978") || isbn.substring(0, 3).equals("979")) && (total % 10 ==0 );
+
     }
 
     /**
@@ -91,6 +100,9 @@ public class ISBNValidator {
         }
     }
 
+    /**
+     * The main method imports data and runs the program.
+     */
     public static void main(String[] args){
         ISBNValidator app = new ISBNValidator ();
         System.out.println("* ISBN Validator Program *");
